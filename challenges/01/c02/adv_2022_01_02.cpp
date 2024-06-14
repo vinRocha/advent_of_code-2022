@@ -4,59 +4,71 @@
  *  Created on: 01 Dec 2022
  *      Author: vsilva1
  */
-#include <cstdlib>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cstdlib>
 
 #define BUFFER_SIZE 81 //amount of characters read per line;
-
 #define INPUT_FILE "challenges/01/input/vrs_01.txt"
-std::fstream input_file;
 
-int read_ok(){
-    if (input_file.bad()) {
-        std::cerr << "Error reading from " << INPUT_FILE << "\n";
-        return -2;
-    } else if (input_file.eof()) {
+enum {
+    READ_OK,
+    READ_EOF,
+    READ_FAIL,
+    READ_BAD
+};
+
+int read_status(std::fstream &input_file) {
+    if (input_file.eof()) {
         std::cerr << "EOF: "<< INPUT_FILE << "\n";
-        return -1;
-    } else if (input_file.fail()) {
-        std::cerr << "Fail to read input to variable." << "\n";
-        return 0;
+        return READ_EOF;
     }
-    return 1;
+    else if (input_file.bad()) {
+        std::cerr << "Error reading from " << INPUT_FILE << "\n";
+        return READ_BAD;
+    }
+    else if (input_file.fail()) {
+        std::cerr << "Fail to read input to variable." << "\n";
+        return READ_FAIL;
+    }
+    return READ_OK;
 }
 
 int main(int argc, char **argv) {
 
-    char c[BUFFER_SIZE]; //Character buffer for readline;
+    char line[BUFFER_SIZE]; //Character buffer for readline;
     std::vector<int> elf_supplies; //amount of calories carried by each elf.
+    std::fstream input_file;
+    int elf = 0;
+    int most_calories = 0;
+    int rc = READ_OK;
 
     input_file.open(INPUT_FILE, std::ios_base::in); //open file in read-only mode;
-    if (read_ok() < 1) {
+    rc = read_status(input_file);
+    if (rc > READ_OK) {
         std::cerr << "Error opening " << INPUT_FILE << "\n";
         input_file.close();
-        return -1;
+        return -rc;
     }
 
     //store supplies for each elf given by input_file:
-    int counter = 0;
     elf_supplies.push_back(0);
-    while (true){
-        input_file.getline(c, BUFFER_SIZE);
-        if (read_ok() < 0){ //eofbit || badbit
+    while (rc < READ_EOF) {
+        input_file.getline(line, BUFFER_SIZE);
+        rc = read_status(input_file);
+        if (rc > READ_EOF){ //badbit || failbit
             input_file.close();
-            break;
-        } else if (*c){
-            elf_supplies[counter] = elf_supplies[counter] + atoi(c);
+            return -rc;
+        } else if (*line){
+            elf_supplies[elf] += atoi(line);
         } else {
             elf_supplies.push_back(0);
-            counter ++;
+            elf++;
         }
     }
 
-    int most_calories = 0;
     std::vector<int>::iterator it1;
     for (int i = 0; i <  3; i++){
         it1 = elf_supplies.begin();
