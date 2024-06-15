@@ -1,20 +1,11 @@
+link_libraries(file_state)
+include_directories("${PROJECT_SOURCE_DIR}/lib/include")
+
 add_executable(2022-day1-01 01/c01/adv_2022_01_01.cpp)
-target_link_libraries(2022-day1-01 PUBLIC file_state)
-target_include_directories(2022-day1-01 PUBLIC
-                          "${PROJECT_SOURCE_DIR}/lib/include")
 add_executable(2022-day1-02 01/c02/adv_2022_01_02.cpp)
-target_link_libraries(2022-day1-02 PUBLIC file_state)
-target_include_directories(2022-day1-02 PUBLIC
-                          "${PROJECT_SOURCE_DIR}/lib/include")
 
 add_executable(2022-day2-01 02/c01/adv_2022_02_01.cpp)
-target_link_libraries(2022-day2-01 PUBLIC file_state)
-target_include_directories(2022-day2-01 PUBLIC
-                          "${PROJECT_SOURCE_DIR}/lib/include")
 add_executable(2022-day2-02 02/c02/adv_2022_02_02.cpp)
-target_link_libraries(2022-day2-02 PUBLIC file_state)
-target_include_directories(2022-day2-02 PUBLIC
-                          "${PROJECT_SOURCE_DIR}/lib/include")
 
 add_executable(2022-day3-01 03/c01/adv_2022_03_01.cpp)
 add_executable(2022-day3-02 03/c02/adv_2022_03_02.cpp)

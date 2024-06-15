@@ -4,31 +4,16 @@
  *  Created on: 03 Dec 2022
  *      Author: vsilva1
  */
+
 #include <cstdlib>
-#include <iostream>
-#include <fstream>
 #include <vector>
 #include <string>
+#include "file_state.h" //includes iostream / fstream.
 
 #define BUFFER_SIZE 81 //amount of characters read per line;
 #define NPOS std::string::npos //return value for substring not found
 
-#define INPUT_FILE "challenges/03/input/vrs_03.txt"
-std::fstream input_file;
-
-int read_ok() {
-    if (input_file.bad()) {
-        std::cerr << "Error reading from " << INPUT_FILE << "\n";
-        return -2;
-    } else if (input_file.eof()) {
-        std::cerr << "EOF: "<< INPUT_FILE << "\n";
-        return -1;
-    } else if (input_file.fail()) {
-        std::cerr << "Fail to read input to variable." << "\n";
-        return 0;
-    }
-    return 1;
-}
+const char *file_name = "challenges/03/input/vrs_03.txt";
 
 size_t find_next_common_c(std::string &s1, std::string &s2, size_t &pos1) {
     if (pos1 > 0) pos1++;
@@ -42,29 +27,33 @@ size_t find_next_common_c(std::string &s1, std::string &s2, size_t &pos1) {
 
 int main(int argc, char **argv) {
 
+    std::fstream input_file;
     std::vector<char*> lines;
-    int answer = 0;
+    int answer = 0; int rc;
 
-    input_file.open(INPUT_FILE, std::ios_base::in); //open file in read-only mode;
-    if (read_ok() < 1) {
-        std::cerr << "Error opening " << INPUT_FILE << "\n";
+    input_file.open(file_name, std::ios_base::in); //open file in read-only mode;
+    rc = file_state(input_file);
+    if (rc < FILE_OK) {
+        std::cerr << "Error opening " << file_name << "\n";
         input_file.close();
-        return -1;
+        return rc;
     }
 
     //store rucksacks contents:
-    while (true) {
+    do {
         lines.push_back(new char[BUFFER_SIZE]);
         input_file.getline(lines.back(), BUFFER_SIZE);
-        if (read_ok() < 1) { //eofbit || badbit || failbit
+        rc = file_state(input_file);
+        if (rc < FILE_EOF) { //badbit || failbit
             input_file.close();
-            break;
+            return rc;
         }
-    }
-    lines.pop_back(); //remove last element because it shall be empty;
+    } while (rc > FILE_EOF);
+    lines.pop_back(); //remove last element because it will be empty;
+
     if (lines.size() % 3) {
-        std::cerr << "#lines not divisable by 3. Check input file: " << INPUT_FILE << "\n";
-        return -1;
+        std::cerr << "#lines not divisable by 3. Check input file: " << file_name << "\n";
+        return 2;
     }
 
     //compute answer
