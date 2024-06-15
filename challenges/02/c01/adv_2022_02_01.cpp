@@ -5,35 +5,11 @@
  *      Author: vsilva1
  */
 
-#include <iostream>
-#include <fstream>
 #include <vector>
 #include <string>
+#include "file_state.h" //includes iostream / fstream.
 
-#define INPUT_FILE "challenges/02/input/vrs_02.txt"
-
-enum {
-    READ_OK,
-    READ_EOF,
-    READ_FAIL,
-    READ_BAD
-};
-
-int read_status(std::fstream &input_file) {
-    if (input_file.eof()) {
-        std::cerr << "EOF: "<< INPUT_FILE << "\n";
-        return READ_EOF;
-    }
-    else if (input_file.bad()) {
-        std::cerr << "Error reading from " << INPUT_FILE << "\n";
-        return READ_BAD;
-    }
-    else if (input_file.fail()) {
-        std::cerr << "Fail to read input to variable." << "\n";
-        return READ_FAIL;
-    }
-    return READ_OK;
-}
+const char *file_name = "challenges/02/input/vrs_02.txt";
 
 int play_error(char, char);
 
@@ -47,18 +23,18 @@ int main(int argc, char **argv) {
     int answer = 0;
     int rc;
 
-    input_file.open(INPUT_FILE, std::ios_base::in); //open file in read-only mode;
-    rc = read_status(input_file);
-    if (rc > READ_OK) {
-        std::cerr << "Error opening " << INPUT_FILE << "\n";
+    input_file.open(file_name, std::ios_base::in); //open file in read-only mode;
+    rc = file_state(input_file);
+    if (rc < FILE_OK) {
+        std::cerr << "Error opening " << file_name << "\n";
         input_file.close();
-        return -rc;
+        return rc;
     }
 
     //store play for each player given by input_file:
     input_file >> buffer;
-    rc = read_status(input_file);
-    while (rc < READ_EOF) {
+    rc = file_state(input_file);
+    while (rc > FILE_EOF) {
         if (*buffer.c_str() > 'D') {
             player1.push_back(*buffer.c_str());
         }
@@ -69,12 +45,12 @@ int main(int argc, char **argv) {
             std::cerr << "Invalid input: " << buffer << "\n";
         }
         input_file >> buffer;
-        rc = read_status(input_file);
+        rc = file_state(input_file);
     }
     input_file.close();
 
-    if (rc > READ_EOF) {
-        return -rc;
+    if (rc < FILE_EOF) {
+        return rc;
     }
 
     if (player1.size() != player2.size()){
