@@ -26,4 +26,6 @@ target_link_libraries(2022-day7-02 PUBLIC FileList)
 
 add_executable(2022-day8-01 08/c01/adv_2022_08_01.cpp)
 target_link_libraries(2022-day8-01 PUBLIC Matrix)
+add_executable(2022-day8-02 08/c02/adv_2022_08_02.cpp)
+target_link_libraries(2022-day8-02 PUBLIC Matrix)
 
