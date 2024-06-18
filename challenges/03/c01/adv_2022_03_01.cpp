@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <vector>
 #include <string>
-#include "file_state.h" //includes iostream / fstream.
+#include "file_handler.h" //includes iostream / fstream.
 
 #define BUFFER_SIZE 81 //amount of characters read per line;
 #define NPOS std::string::npos //return value for substring not found

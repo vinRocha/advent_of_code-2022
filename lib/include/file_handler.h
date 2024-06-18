@@ -1,11 +1,11 @@
 /*
- * file_status.h
+ * file_handler.h
  *
  *  Created on: 15 Jun 2024
  *      Author: vsilva1
  */
-#ifndef LIB_INCLUDE_FILESTATE_H_
-#define LIB_INCLUDE_FILESTATE_H_
+#ifndef LIB_INCLUDE_FILEHANDLER_H_
+#define LIB_INCLUDE_FILEHANDLER_H_
 
 #include <iostream>
 #include <fstream>
@@ -18,5 +18,6 @@ enum {
 };
 
 int file_state(std::fstream &input_file);
+int read_line(std::fstream &input_file, char *line, size_t size);
 
-#endif /* LIB_INCLUDE_FILESTATE_H_ */
+#endif /* LIB_INCLUDE_FILEHANDLER_H_ */

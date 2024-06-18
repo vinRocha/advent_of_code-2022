@@ -7,7 +7,7 @@
 
 #include <cstdlib>
 #include <vector>
-#include "file_state.h" //includes iostream / fstream.
+#include "file_handler.h" //includes iostream / fstream.
 
 #define BUFFER_SIZE 81 //amount of characters read per line;
 const char *file_name = "challenges/01/input/vrs_01.txt";

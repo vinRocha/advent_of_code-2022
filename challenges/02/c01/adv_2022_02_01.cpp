@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <string>
-#include "file_state.h" //includes iostream / fstream.
+#include "file_handler.h" //includes iostream / fstream.
 
 const char *file_name = "challenges/02/input/vrs_02.txt";
 
