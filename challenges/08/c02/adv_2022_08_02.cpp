@@ -14,7 +14,7 @@
 #define BUFFER_SIZE 101 //must be at least 1 + number of char / line in input file.
 const char *file_name = "challenges/08/input/vrs_08.txt";
 
-int count_trees(Matrix &A, int j, int k, bool at_row, bool forward);
+int count_trees(Matrix A, int j, int k, bool at_row, bool forward);
 
 int main(int argc, char **argv) {
 
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-int count_trees(Matrix &A, int j, int k, bool at_row, bool forward) {
+int count_trees(Matrix A, int j, int k, bool at_row, bool forward) {
     int count = 0;
     int hight = A.getElement(j,k);
     if (at_row) {

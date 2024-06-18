@@ -11,14 +11,13 @@ Matrix::Matrix(int m, int n) {
     this->m = m;
     this->n = n;
     this->msize = m*n;
-    this->A = new std::vector<int> (msize, 0);
+    this->A = std::vector<int> (msize, 0);
     this->j = 0;
     this->k = 0;
     this->e = 0;
 }
 
 Matrix::~Matrix() {
-    delete A;
 }
 
 int Matrix::size() {
@@ -35,15 +34,15 @@ int Matrix::collumns() {
 
 void Matrix::addRow() {
     for (int i = 0; i < n; i++) {
-        A->push_back(0);
+        A.push_back(0);
     }
-    m++; msize = A->size();
+    m++; msize = A.size();
 }
 
 int Matrix::getElement(int j, int k) {
     if (j > m || k > n || j < 0 || k < 0)
         return -1;
-    e = (*A)[k-1 + (j-1)*n];
+    e = A[k-1 + (j-1)*n];
     this->j = j;
     this->k = k;
     return e;
@@ -52,21 +51,21 @@ int Matrix::getElement(int j, int k) {
 int Matrix::getElement(int i) {
     if (i < 0 || i > msize -1 )
         return -1;
-    e = (*A)[i];
+    e = A[i];
     return e;
 }
 
 bool Matrix::setElement(int j, int k, int x) {
     if (j > m || k > n || j < 0 || k < 0)
         return false;
-    (*A)[(j-1)*n + k-1] = x;
+    A[(j-1)*n + k-1] = x;
     return true;
 }
 
 bool Matrix::setElement(int i, int x) {
     if (i < 0 || i > msize -1 )
         return false;
-    (*A)[i] = x;
+    A[i] = x;
     return true;
 }
 
@@ -79,7 +78,7 @@ bool Matrix::hasElement(int x) {
             k = 1;
             j++;
         }
-        if (x == (*A)[i]){
+        if (x == A[i]){
             hasE = true;
             break;
         }

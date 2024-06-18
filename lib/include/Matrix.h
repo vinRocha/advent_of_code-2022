@@ -12,7 +12,7 @@
 
 class Matrix {
 private:
-    std::vector<int> *A;//matrix (array);
+    std::vector<int> A;//matrix (array);
     int m; //# rows
     int n; //# columns
     int msize;
